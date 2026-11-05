@@ -10,35 +10,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
-            --bg: #ffffff;
-            --bg-soft: #fafafa;
-            --bg-tint: #fffbeb;
-            --text: #1a1a1a;
-            --text-soft: #4b5563;
-            --text-muted: #6b7280;
-            --text-light: #9ca3af;
-            --yellow: #fbbf24;
-            --yellow-dark: #f59e0b;
-            --yellow-bright: #fde047;
-            --yellow-text: #422006;
-            --yellow-glow: rgba(251, 191, 36, 0.4);
-            --blue: #3b82f6;
-            --blue-bright: #60a5fa;
-            --blue-dark: #1e40af;
-            --blue-soft: #dbeafe;
-            --blue-glow: rgba(59, 130, 246, 0.35);
-            --green: #22c55e;
-            --green-dark: #15803d;
-            --green-soft: #f0fdf4;
-            --red: #ef4444;
-            --red-dark: #b91c1c;
-            --red-soft: #fef2f2;
-            --border-light: #e5e7eb;
-            --border-soft: #f3f4f6;
-            --border-soft-gold: rgba(251, 191, 36, 0.3);
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.08);
+            --bg: #ffffff; --bg-soft: #fafafa; --bg-tint: #fffbeb;
+            --text: #1a1a1a; --text-soft: #4b5563; --text-muted: #6b7280; --text-light: #9ca3af;
+            --yellow: #fbbf24; --yellow-dark: #f59e0b; --yellow-bright: #fde047; --yellow-text: #422006; --yellow-glow: rgba(251, 191, 36, 0.4);
+            --blue: #3b82f6; --blue-bright: #60a5fa; --blue-dark: #1e40af; --blue-soft: #dbeafe; --blue-glow: rgba(59, 130, 246, 0.35);
+            --green: #22c55e; --green-dark: #15803d; --green-soft: #f0fdf4;
+            --red: #ef4444; --red-dark: #b91c1c; --red-soft: #fef2f2;
+            --border-light: #e5e7eb; --border-soft: #f3f4f6; --border-soft-gold: rgba(251, 191, 36, 0.3);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04); --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06); --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.08);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,64 +25,36 @@
         body {
             font-family: 'Fredoka', system-ui, sans-serif;
             background: radial-gradient(circle at 15% 10%, rgba(251, 191, 36, 0.08) 0%, transparent 45%),
-                        radial-gradient(circle at 85% 90%, rgba(59, 130, 246, 0.07) 0%, transparent 45%),
-                        #ffffff;
-            color: var(--text);
-            min-height: 100vh;
-            padding: 16px;
-            overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+                        radial-gradient(circle at 85% 90%, rgba(59, 130, 246, 0.07) 0%, transparent 45%), #ffffff;
+            color: var(--text); min-height: 100vh; padding: 16px; overflow-x: hidden;
+            display: flex; justify-content: center; align-items: center; position: relative;
         }
 
-        .bg-hex {
-            position: fixed; inset: 0; z-index: -2; pointer-events: none;
-            background-image: radial-gradient(circle at 25px 25px, rgba(251, 191, 36, 0.06) 18px, transparent 19px),
-                              radial-gradient(circle at 75px 75px, rgba(59, 130, 246, 0.05) 18px, transparent 19px);
-            background-size: 120px 120px;
-        }
+        .bg-hex { position: fixed; inset: 0; z-index: -2; pointer-events: none; background-image: radial-gradient(circle at 25px 25px, rgba(251, 191, 36, 0.06) 18px, transparent 19px), radial-gradient(circle at 75px 75px, rgba(59, 130, 246, 0.05) 18px, transparent 19px); background-size: 120px 120px; }
         .float-bg { position: fixed; inset: 0; pointer-events: none; z-index: -1; overflow: hidden; }
         .float-emoji { position: absolute; font-size: 32px; opacity: 0.2; animation: floatUp linear infinite; }
         @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); } }
 
         .screen {
-            display: none;
-            background: #ffffff;
-            border-radius: 28px;
+            display: none; background: #ffffff; border-radius: 28px;
             box-shadow: var(--shadow-lg), 0 0 0 1px rgba(251, 191, 36, 0.2);
-            padding: 44px 36px;
-            width: 100%; max-width: 780px;
-            text-align: center;
-            position: relative; z-index: 10;
-            border: 2px solid var(--border-soft-gold);
+            padding: 44px 36px; width: 100%; max-width: 780px; text-align: center;
+            position: relative; z-index: 10; border: 2px solid var(--border-soft-gold);
             animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
         .screen.active { display: block; }
         @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .screen::before {
-            content: ''; position: absolute; top: 0; left: 20px; right: 20px; height: 4px;
-            background: linear-gradient(90deg, transparent, var(--yellow), var(--blue-bright), var(--yellow), transparent);
-            border-radius: 0 0 4px 4px;
-        }
+        .screen::before { content: ''; position: absolute; top: 0; left: 20px; right: 20px; height: 4px; background: linear-gradient(90deg, transparent, var(--yellow), var(--blue-bright), var(--yellow), transparent); border-radius: 0 0 4px 4px; }
 
         h1, h2, h3 { font-family: 'Baloo 2', sans-serif; font-weight: 800; letter-spacing: 0.5px; color: var(--text); }
 
         .btn {
-            background: linear-gradient(135deg, var(--yellow), var(--yellow-dark));
-            color: var(--yellow-text);
-            border: none; padding: 18px 32px; border-radius: 16px;
-            font-family: 'Baloo 2', sans-serif; font-size: 20px; font-weight: 700;
-            letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s;
-            box-shadow: 0 6px 20px var(--yellow-glow), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-dark)); color: var(--yellow-text);
+            border: none; padding: 18px 32px; border-radius: 16px; font-family: 'Baloo 2', sans-serif; font-size: 20px; font-weight: 700;
+            letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s; box-shadow: 0 6px 20px var(--yellow-glow), inset 0 1px 0 rgba(255, 255, 255, 0.5);
             margin-top: 20px; width: 100%; position: relative; overflow: hidden;
         }
-        .btn::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
-            transform: translateX(-100%); transition: transform 0.6s;
-        }
+        .btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.6s; }
         .btn:hover::before { transform: translateX(100%); }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px var(--yellow-glow), inset 0 1px 0 rgba(255, 255, 255, 0.5); }
         .btn:active { transform: translateY(1px); }
@@ -111,11 +62,7 @@
         .login-mascot { position: relative; display: inline-block; margin-bottom: 16px; }
         .login-mascot .bee { font-size: 96px; display: inline-block; animation: beeFloat 3s infinite ease-in-out; filter: drop-shadow(0 10px 20px rgba(251, 191, 36, 0.3)); }
         @keyframes beeFloat { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-16px) rotate(5deg); } }
-        .login-mascot::after {
-            content: ''; position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
-            width: 80px; height: 8px; background: radial-gradient(ellipse, rgba(251, 191, 36, 0.4), transparent 70%);
-            border-radius: 50%; animation: shadowPulse 3s infinite ease-in-out;
-        }
+        .login-mascot::after { content: ''; position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 80px; height: 8px; background: radial-gradient(ellipse, rgba(251, 191, 36, 0.4), transparent 70%); border-radius: 50%; animation: shadowPulse 3s infinite ease-in-out; }
         @keyframes shadowPulse { 0%, 100% { transform: translateX(-50%) scaleX(1); opacity: 0.5; } 50% { transform: translateX(-50%) scaleX(0.7); opacity: 0.3; } }
 
         .login-title { font-size: 46px; line-height: 1.05; font-weight: 800; margin-bottom: 12px; color: var(--text); }
@@ -125,15 +72,10 @@
         .login-form { text-align: left; display: flex; flex-direction: column; gap: 18px; }
         .input-group { position: relative; }
         .input-group label { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 13px; color: #92400e; margin-bottom: 8px; display: block; margin-left: 6px; letter-spacing: 1.5px; text-transform: uppercase; }
-        .input-group input { width: 100%; padding: 16px 20px; border: 2px solid var(--border-light); border-radius: 14px; font-size: 17px; font-family: 'Fredoka', sans-serif; font-weight: 500; background: #ffffff; color: var(--text); transition: all 0.25s; }
+        .input-group input, .input-group select { width: 100%; padding: 16px 20px; border: 2px solid var(--border-light); border-radius: 14px; font-size: 17px; font-family: 'Fredoka', sans-serif; font-weight: 500; background: #ffffff; color: var(--text); transition: all 0.25s; }
         .input-group input::placeholder { color: var(--text-light); font-weight: 400; }
-        .input-group input:focus { outline: none; border-color: var(--yellow); background: #ffffff; box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.15); }
+        .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--yellow); background: #ffffff; box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.15); }
         .input-group input[readonly] { background: var(--bg-soft); color: var(--text-muted); cursor: not-allowed; border-color: var(--border-soft); }
-
-        /* Mode Selector */
-        .mode-btn { flex: 1; padding: 12px; border: 2px solid var(--border-light); background: #ffffff; border-radius: 12px; font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 14px; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
-        .mode-btn:hover { border-color: var(--yellow); color: var(--text); }
-        .mode-btn.active { background: linear-gradient(135deg, var(--yellow), var(--yellow-dark)); color: var(--yellow-text); border-color: var(--yellow-dark); box-shadow: 0 4px 12px var(--yellow-glow); }
 
         .quiz-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
         .q-counter { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 15px; padding: 10px 20px; border-radius: 999px; background: var(--blue-soft); border: 2px solid rgba(59, 130, 246, 0.3); color: var(--blue-dark); letter-spacing: 1px; text-transform: uppercase; }
@@ -253,9 +195,10 @@
         .xp-float { position: fixed; font-family: 'Baloo 2', sans-serif; font-size: 52px; font-weight: 800; color: var(--yellow-dark); text-shadow: 0 2px 12px var(--yellow-glow); pointer-events: none; z-index: 1000; animation: xpFloat 1.2s ease-out forwards; }
         @keyframes xpFloat { 0% { opacity: 0; transform: translateX(-50%) translateY(20px) scale(0.5); } 30% { opacity: 1; transform: translateX(-50%) translateY(-20px) scale(1.2); } 100% { opacity: 0; transform: translateX(-50%) translateY(-100px) scale(1); } }
 
-        #screen-report { max-width: 900px; padding: 20px; background: transparent; border: none; box-shadow: none; }
-        #screen-report.active { display: block; }
-        #screen-report::before { display: none; }
+        /* === REPORT / CERTIFICATE === */
+        #screen-report, #screen-practice-result { max-width: 900px; padding: 20px; background: transparent; border: none; box-shadow: none; }
+        #screen-report.active, #screen-practice-result.active { display: block; }
+        #screen-report::before, #screen-practice-result::before { display: none; }
 
         .certificate { background: #ffffff; border-radius: 20px; padding: 48px 56px; position: relative; box-shadow: var(--shadow-lg); border: 8px double var(--yellow); color: var(--text); font-family: 'Fredoka', sans-serif; overflow: hidden; }
         .certificate::before { content: ''; position: absolute; inset: 14px; border: 1px solid rgba(251, 191, 36, 0.25); border-radius: 12px; pointer-events: none; }
@@ -287,6 +230,20 @@
         .cert-stars { font-size: 36px; letter-spacing: 6px; margin: 8px 0 6px; line-height: 1; }
         .cert-grade { display: inline-block; font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 17px; padding: 8px 24px; border-radius: 999px; margin-top: 6px; background: linear-gradient(135deg, var(--yellow), var(--yellow-dark)); color: var(--yellow-text); letter-spacing: 1px; box-shadow: 0 4px 16px var(--yellow-glow); }
 
+        /* Breakdown Box */
+        .breakdown-box { background: #ffffff; border: 2px solid var(--border-light); border-radius: 16px; padding: 16px 20px; margin-bottom: 24px; text-align: left; }
+        .breakdown-title { font-family: 'Baloo 2', sans-serif; font-size: 14px; font-weight: 800; color: var(--text); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; border-bottom: 2px dashed var(--border-light); padding-bottom: 8px; }
+        .breakdown-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-soft); }
+        .breakdown-row:last-child { margin-bottom: 0; }
+        .bd-icon { font-size: 18px; width: 24px; text-align: center; }
+        .bd-label { width: 90px; }
+        .bd-bar-bg { flex: 1; height: 10px; background: var(--bg-soft); border-radius: 999px; overflow: hidden; border: 1px solid var(--border-light); }
+        .bd-bar-fill { height: 100%; border-radius: 999px; transition: width 1s ease; }
+        .bd-fill-listen { background: linear-gradient(90deg, #f87171, #ef4444); }
+        .bd-fill-read { background: linear-gradient(90deg, var(--blue-bright), var(--blue)); }
+        .bd-fill-write { background: linear-gradient(90deg, var(--yellow-bright), var(--yellow-dark)); }
+        .bd-score { width: 40px; text-align: right; font-weight: 800; color: var(--text); }
+
         .cert-details { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
         .detail-box { background: var(--bg-soft); border: 1.5px solid var(--border-light); border-radius: 12px; padding: 12px 16px; }
         .detail-label { font-size: 10px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
@@ -300,6 +257,12 @@
         .cert-footer { text-align: center; font-size: 10px; color: var(--text-light); margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-light); font-style: italic; letter-spacing: 0.5px; }
         .report-actions { margin-top: 24px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
         .report-actions .btn { flex: 1; min-width: 200px; max-width: 280px; margin-top: 0; }
+
+        /* Practice Result Card */
+        .practice-card { background: #ffffff; border-radius: 20px; padding: 48px 56px; text-align: center; box-shadow: var(--shadow-lg); border: 4px solid var(--blue); max-width: 600px; margin: 0 auto; }
+        .practice-title { font-family: 'Baloo 2', sans-serif; font-size: 32px; font-weight: 800; color: var(--blue-dark); margin-bottom: 20px; }
+        .practice-score { font-family: 'Baloo 2', sans-serif; font-size: 80px; font-weight: 800; color: var(--text); line-height: 1; margin-bottom: 10px; }
+        .practice-sub { font-size: 18px; color: var(--text-muted); margin-bottom: 30px; }
 
         .site-footer { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); font-family: 'Fredoka', sans-serif; font-size: 11px; font-weight: 500; color: var(--text-light); letter-spacing: 1.2px; text-transform: uppercase; padding: 6px 16px; background: rgba(255, 255, 255, 0.85); border: 1px solid var(--border-light); border-radius: 999px; z-index: 5; pointer-events: none; backdrop-filter: blur(8px); }
 
@@ -318,6 +281,7 @@
             .cert-bee-top { font-size: 48px !important; margin-bottom: 4px !important; }
             .cert-header { padding-bottom: 12px !important; margin-bottom: 14px !important; }
             .cert-score-section { padding: 12px !important; margin-bottom: 14px !important; }
+            .breakdown-box { margin-bottom: 14px !important; padding: 10px !important; }
             .cert-details { margin-bottom: 14px !important; gap: 8px !important; }
             .detail-box { padding: 8px 12px !important; }
             .cert-signatures { margin-top: 16px !important; padding-top: 12px !important; }
@@ -363,6 +327,8 @@
             .try-again-banner .big { font-size: 24px; }
             .site-footer { font-size: 9px; padding: 4px 12px; bottom: 6px; }
             .like-badge { font-size: 32px; top: -4px; right: -4px; }
+            .practice-card { padding: 28px 20px; }
+            .practice-score { font-size: 60px; }
         }
     </style>
 </head>
@@ -396,12 +362,15 @@
                 <input type="text" id="inp-class" placeholder="e.g., BIPA Kids 1A">
             </div>
             
-            <div class="input-group" style="text-align: center;">
-                <label style="text-align: center; margin-left: 0;">Select Game Mode</label>
-                <div style="display: flex; gap: 10px; margin-top: 8px;">
-                    <button type="button" class="mode-btn active" id="btn-std" onclick="setMode('standard')">Standard (28 Qs)</button>
-                    <button type="button" class="mode-btn" id="btn-full" onclick="setMode('full')">Full Mode (All Words)</button>
-                </div>
+            <div class="input-group">
+                <label>🎯 Activity Mode</label>
+                <select id="inp-mode" style="appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23f59e0b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 20px top 50%; background-size: 12px auto;">
+                    <option value="standard">Standard Quiz (28 Questions)</option>
+                    <option value="full">Full Assessment (All Words)</option>
+                    <option value="practice_listening">Practice: Listening Only</option>
+                    <option value="practice_reading">Practice: Reading Only</option>
+                    <option value="practice_writing">Practice: Writing Only</option>
+                </select>
             </div>
 
             <button class="btn" onclick="startQuiz()">🚀 Start Adventure</button>
@@ -436,7 +405,7 @@
         <div class="options-grid" id="options-container"></div>
     </div>
 
-    <!-- ============ REPORT ============ -->
+    <!-- ============ REPORT (Certificate) ============ -->
     <div id="screen-report" class="screen">
         <div class="certificate">
             <span class="cert-corner tl">🐝</span>
@@ -466,6 +435,29 @@
                     <div class="cert-grade" id="rep-grade">A · Excellent</div>
                 </div>
 
+                <!-- Breakdown (Only shown in Full Mode) -->
+                <div class="breakdown-box" id="cert-breakdown" style="display: none;">
+                    <div class="breakdown-title">Skill Breakdown</div>
+                    <div class="breakdown-row">
+                        <span class="bd-icon">🎧</span>
+                        <span class="bd-label">Listening</span>
+                        <div class="bd-bar-bg"><div class="bd-bar-fill bd-fill-listen" id="bd-listen-bar" style="width: 0%;"></div></div>
+                        <span class="bd-score" id="bd-listen-score">0%</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span class="bd-icon">📖</span>
+                        <span class="bd-label">Reading</span>
+                        <div class="bd-bar-bg"><div class="bd-bar-fill bd-fill-read" id="bd-read-bar" style="width: 0%;"></div></div>
+                        <span class="bd-score" id="bd-read-score">0%</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span class="bd-icon">✍️</span>
+                        <span class="bd-label">Writing</span>
+                        <div class="bd-bar-bg"><div class="bd-bar-fill bd-fill-write" id="bd-write-bar" style="width: 0%;"></div></div>
+                        <span class="bd-score" id="bd-write-score">0%</span>
+                    </div>
+                </div>
+
                 <div class="cert-details">
                     <div class="detail-box">
                         <div class="detail-label">📅 Date</div>
@@ -486,25 +478,21 @@
                 </div>
 
                 <div class="cert-signatures">
-                    <!-- Guru BIPA (Posisi Paling Kiri - Dikosongkan) -->
                     <div class="sig-box">
                         <div class="sig-title">BIPA Teacher</div>
                         <div class="sig-line" style="border-top: none; padding-top: 0; font-weight: 800; color: #1e293b; margin-top: 55px;">&nbsp;</div>
                         <div class="sig-line" style="border-top: 2px solid #1e293b; margin-top: 5px;">Signature</div>
                     </div>
-                    <!-- Orang Tua -->
                     <div class="sig-box">
                         <div class="sig-title">Parent / Guardian</div>
                         <div class="sig-line">Signature</div>
                     </div>
-                    <!-- Kepala Sekolah -->
                     <div class="sig-box">
                         <div class="sig-title">School Principal</div>
                         <div class="sig-line">Signature</div>
                     </div>
                 </div>
 
-                <!-- QR Code Verifikasi -->
                 <div style="text-align: center; margin-top: 25px;">
                     <div id="qrcode" style="display: inline-block; padding: 6px; background: white; border: 2px solid var(--yellow); border-radius: 8px;"></div>
                     <div style="font-size: 9px; color: var(--text-muted); margin-top: 6px; letter-spacing: 1px; text-transform: uppercase;">Scan to Verify Certificate</div>
@@ -519,6 +507,23 @@
         <div class="report-actions no-print">
             <button class="btn" onclick="printCertificate()">🖨️ Print / Save PDF</button>
             <button class="btn" onclick="location.reload()">🏠 Play Again</button>
+        </div>
+    </div>
+
+    <!-- ============ PRACTICE RESULT (No Certificate) ============ -->
+    <div id="screen-practice-result" class="screen">
+        <div class="practice-card">
+            <div style="font-size: 80px; margin-bottom: 10px;">🐝</div>
+            <div class="practice-title">Practice Complete!</div>
+            <div class="practice-score" id="practice-score-display">0</div>
+            <div class="practice-sub" id="practice-sub-display">Great effort!</div>
+            
+            <div style="background: var(--bg-soft); border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+                <div style="font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Total Correct</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--blue-dark);" id="practice-correct-display">0 / 0</div>
+            </div>
+
+            <button class="btn" onclick="location.reload()">🔄 Back to Menu</button>
         </div>
     </div>
 
@@ -558,7 +563,7 @@
 
         let studentName = "";
         let studentClass = "";
-        let quizMode = 'standard';
+        let activityMode = 'standard';
         let gameQuestions = [];
         let currentIndex = 0;
         let score = 0;
@@ -566,6 +571,13 @@
         let canClick = true;
         let currentAttempt = 1;
         let TOTAL_Q = 28;
+
+        // Skill Tracking
+        let skillStats = {
+            listening: { score: 0, total: 0 },
+            reading: { score: 0, total: 0 },
+            writing: { score: 0, total: 0 }
+        };
 
         /* ============ AUDIO CACHE & PLAYER ============ */
         const audioCache = {};
@@ -606,7 +618,7 @@
             const cleanup = () => { if (btn) btn.classList.remove('playing'); };
 
             audio.onended = () => { cleanup(); if (callback) callback(); };
-            audio.onerror = () => { cleanup(); if (callback) callback(); }; // Silent fail (no TTS)
+            audio.onerror = () => { cleanup(); if (callback) callback(); }; 
 
             const playPromise = audio.play();
             if (playPromise) {
@@ -751,23 +763,19 @@
             }, 2000);
         }
 
-        /* ============ MODE SELECTOR ============ */
-        function setMode(mode) {
-            quizMode = mode;
-            document.getElementById('btn-std').classList.remove('active');
-            document.getElementById('btn-full').classList.remove('active');
-            if (mode === 'standard') {
-                document.getElementById('btn-std').classList.add('active');
-            } else {
-                document.getElementById('btn-full').classList.add('active');
-            }
-        }
-
         /* ============ GENERATE QUESTIONS ============ */
         function generateQuestions() {
             let qs = [];
+            activityMode = document.getElementById('inp-mode').value;
+            
+            // Reset skill stats
+            skillStats = {
+                listening: { score: 0, total: 0 },
+                reading: { score: 0, total: 0 },
+                writing: { score: 0, total: 0 }
+            };
 
-            if (quizMode === 'full') {
+            if (activityMode === 'full') {
                 vocabulary.forEach(v => {
                     qs.push({ ...v, type: 'listen' });
                     qs.push({ ...v, type: 'audio-text' });
@@ -787,7 +795,45 @@
                     }
                 });
                 TOTAL_Q = qs.length;
-            } else {
+            } 
+            else if (activityMode === 'practice_listening') {
+                for(let i=0; i<10; i++) {
+                    const v = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+                    const types = ['listen', 'match', 'true-false', 'like'];
+                    const randomType = types[Math.floor(Math.random() * types.length)];
+                    let q = { ...v, type: randomType };
+                    if (randomType === 'like') q.isLike = Math.random() > 0.5;
+                    if (randomType === 'true-false') {
+                        let audioV = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+                        const isTrue = Math.random() > 0.5;
+                        if (!isTrue && audioV.id === v.id) audioV = vocabulary.filter(x => x.id !== v.id)[0];
+                        q.sentence = isTrue ? v.sentence : audioV.sentence;
+                        q.isTrue = isTrue;
+                    }
+                    qs.push(q);
+                }
+                TOTAL_Q = 10;
+            }
+            else if (activityMode === 'practice_reading') {
+                for(let i=0; i<10; i++) {
+                    const v = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+                    qs.push({ ...v, type: 'audio-text' });
+                }
+                TOTAL_Q = 10;
+            }
+            else if (activityMode === 'practice_writing') {
+                const candidates = vocabulary.filter(v => {
+                    const vowels = v.word.split('').filter(ch => 'aiueoAIUEO'.includes(ch));
+                    return vowels.length >= 2 && vowels.length <= 4;
+                });
+                for(let i=0; i<10; i++) {
+                    const v = candidates[Math.floor(Math.random() * candidates.length)];
+                    qs.push({ ...v, type: 'missing-letters' });
+                }
+                TOTAL_Q = 10;
+            }
+            else {
+                // Standard Mode
                 TOTAL_Q = 28;
                 for(let i=0; i<5; i++) {
                     const v = vocabulary[Math.floor(Math.random() * vocabulary.length)];
@@ -901,7 +947,10 @@
 
         /* ============ LOAD QUESTION ============ */
         function loadQuestion() {
-            if (currentIndex >= TOTAL_Q) return showReport();
+            if (currentIndex >= TOTAL_Q) {
+                if (activityMode.startsWith('practice')) return showPracticeResult();
+                return showReport();
+            }
 
             stopCurrentAudio();
             stopTimer();
@@ -920,6 +969,11 @@
             
             const instr = document.getElementById('instruction-text');
             instr.classList.remove('retry');
+
+            // Track Max Skill Points
+            if (['listen', 'match', 'true-false', 'like'].includes(q.type)) skillStats.listening.total++;
+            else if (q.type === 'audio-text') skillStats.reading.total++;
+            else if (q.type === 'missing-letters') skillStats.writing.total++;
 
             updateAttemptIndicator();
             startTimer(q.type);
@@ -1114,6 +1168,7 @@
                                 wordEl.classList.add('correct');
                                 playSFX('correct');
                                 score += (currentAttempt === 1 ? 1 : 0.5);
+                                skillStats.writing.score += (currentAttempt === 1 ? 1 : 0.5);
                                 showXPFloat(currentAttempt === 1 ? "+1 ⭐" : "+½ ⭐");
                                 correctCount++;
                                 burstConfetti();
@@ -1187,6 +1242,7 @@
         /* ============ CHECK ANSWER ============ */
         function checkAnswer(isCorrect, element) {
             if (!canClick) return;
+            const q = gameQuestions[currentIndex];
 
             if (isCorrect) {
                 canClick = false;
@@ -1194,13 +1250,14 @@
                 element.classList.add('correct');
                 playSFX('correct');
 
-                if (currentAttempt === 1) {
-                    score += 1;
-                    showXPFloat("+1 ⭐");
-                } else {
-                    score += 0.5;
-                    showXPFloat("+½ ⭐");
-                }
+                const points = (currentAttempt === 1 ? 1 : 0.5);
+                score += points;
+                
+                if (['listen', 'match', 'true-false', 'like'].includes(q.type)) skillStats.listening.score += points;
+                else if (q.type === 'audio-text') skillStats.reading.score += points;
+                else if (q.type === 'missing-letters') skillStats.writing.score += points;
+
+                showXPFloat(currentAttempt === 1 ? "+1 ⭐" : "+½ ⭐");
                 correctCount++;
                 burstConfetti();
                 updateXPProgress();
@@ -1286,7 +1343,26 @@
             setTimeout(() => el.remove(), 1300);
         }
 
-        /* ============ REPORT ============ */
+        /* ============ PRACTICE RESULT (No Certificate) ============ */
+        function showPracticeResult() {
+            document.getElementById('screen-quiz').classList.remove('active');
+            document.getElementById('screen-practice-result').classList.add('active');
+            
+            const finalScore = Math.round((score / TOTAL_Q) * 100);
+            document.getElementById('practice-score-display').innerText = finalScore;
+            document.getElementById('practice-correct-display').innerText = `${score} / ${TOTAL_Q}`;
+            
+            let msg = "";
+            if (finalScore >= 90) msg = "Outstanding! You're a natural!";
+            else if (finalScore >= 75) msg = "Great job! Keep it up!";
+            else if (finalScore >= 60) msg = "Good effort! Practice makes perfect.";
+            else msg = "Don't give up! Try again to improve.";
+            
+            document.getElementById('practice-sub-display').innerText = msg;
+            playSFX('finish');
+        }
+
+        /* ============ REPORT (Certificate) ============ */
         function showReport() {
             stopTimer();
             document.getElementById('screen-quiz').classList.remove('active');
@@ -1329,7 +1405,29 @@
             }
             document.getElementById('rep-stars').innerHTML = starsHTML;
 
-            // Generate QR Code (Teacher name removed)
+            // Show breakdown ONLY if Full Mode
+            const bdBox = document.getElementById('cert-breakdown');
+            if (activityMode === 'full') {
+                bdBox.style.display = 'block';
+                
+                const listenPct = skillStats.listening.total > 0 ? Math.round((skillStats.listening.score / skillStats.listening.total) * 100) : 0;
+                const readPct = skillStats.reading.total > 0 ? Math.round((skillStats.reading.score / skillStats.reading.total) * 100) : 0;
+                const writePct = skillStats.writing.total > 0 ? Math.round((skillStats.writing.score / skillStats.writing.total) * 100) : 0;
+                
+                setTimeout(() => {
+                    document.getElementById('bd-listen-bar').style.width = listenPct + '%';
+                    document.getElementById('bd-read-bar').style.width = readPct + '%';
+                    document.getElementById('bd-write-bar').style.width = writePct + '%';
+                }, 100);
+
+                document.getElementById('bd-listen-score').innerText = listenPct + '%';
+                document.getElementById('bd-read-score').innerText = readPct + '%';
+                document.getElementById('bd-write-score').innerText = writePct + '%';
+            } else {
+                bdBox.style.display = 'none';
+            }
+
+            // Generate QR Code
             const qrDiv = document.getElementById('qrcode');
             qrDiv.innerHTML = ""; 
             if (typeof QRCode !== 'undefined') {
