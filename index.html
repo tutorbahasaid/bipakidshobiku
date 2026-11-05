@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amed Honeycomb School · BIPA Quiz</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="manifest" href="manifest.json">
+	<meta name="theme-color" content="#fbbf24">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-title" content="Tutor Bahasa">
+	<link rel="apple-touch-icon" href="images/icon-192.png">
+    <link href="https://fonts.googleapis.com/css2?family=...&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Fredoka:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
     <style>
         :root {
             --bg: #ffffff; --bg-soft: #fafafa; --bg-tint: #fffbeb;
@@ -330,6 +335,31 @@
             .practice-card { padding: 28px 20px; }
             .practice-score { font-size: 60px; }
         }
+		
+		#installBtn {
+		  position: fixed;
+		  bottom: 60px;
+		  right: 20px;
+		  background: linear-gradient(135deg, var(--blue-bright), var(--blue));
+		  color: white;
+		  border: none;
+		  padding: 14px 22px;
+		  border-radius: 999px;
+		  font-family: 'Baloo 2', sans-serif;
+		  font-weight: 700;
+		  font-size: 15px;
+		  cursor: pointer;
+		  box-shadow: 0 6px 20px var(--blue-glow);
+		  z-index: 900;
+		  animation: installPulse 2s infinite;
+		}
+		@keyframes installPulse {
+		  0%, 100% { transform: scale(1); }
+		  50% { transform: scale(1.06); }
+		}
+		#installBtn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px var(--blue-glow); }
+		#installBtn:active { transform: scale(0.95); }
+		
     </style>
 </head>
 <body>
@@ -527,6 +557,9 @@
         </div>
     </div>
 
+	<button id="installBtn" onclick="installApp()" style="display: none;">
+	📲 Install App
+	</button>
     <footer class="site-footer">Created by Tutor Bahasa 2026</footer>
 
     <script>
@@ -1463,6 +1496,51 @@
                 document.title = originalTitle;
             }, 1000);
         }
+		
+				/* ============ PWA — SERVICE WORKER & INSTALL ============ */
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', () => {
+				navigator.serviceWorker.register('./sw.js')
+					.then(reg => console.log('✅ Service Worker registered:', reg.scope))
+					.catch(err => console.warn('❌ SW failed:', err));
+			});
+		}
+
+		let deferredPrompt = null;
+
+		window.addEventListener('beforeinstallprompt', (e) => {
+			e.preventDefault();
+			deferredPrompt = e;
+			document.getElementById('installBtn').style.display = 'block';
+		});
+
+		window.addEventListener('appinstalled', () => {
+			deferredPrompt = null;
+			document.getElementById('installBtn').style.display = 'none';
+			console.log('✅ PWA installed successfully');
+		});
+
+		function installApp() {
+			if (!deferredPrompt) {
+				alert('To install: tap browser menu (⋮) → "Add to Home Screen"');
+				return;
+			}
+			deferredPrompt.prompt();
+			deferredPrompt.userChoice.then((choice) => {
+				console.log('User choice:', choice.outcome);
+				deferredPrompt = null;
+				document.getElementById('installBtn').style.display = 'none';
+			});
+		}
+
+		// Hide install button if already installed (standalone mode)
+		if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+			document.addEventListener('DOMContentLoaded', () => {
+				const btn = document.getElementById('installBtn');
+				if (btn) btn.style.display = 'none';
+			});
+		}
+		
     </script>
 </body>
 </html>
